@@ -1,22 +1,25 @@
 <template>
   <q-header elevated class="bg-primary" height-hint="98">
     <q-toolbar>
-      <q-btn dense flat round icon="mdi-menu" @click="toggleLeftDrawer" />
+      <q-btn dense flat round icon="mdi-menu" @click="toggleLeftDrawer" v-if="isAuth" />
+      <q-btn dense flat round icon="mdi-home" @click="goHome" v-else />
 
-      <q-toolbar-title>Gestión de Telefonía</q-toolbar-title>
+      <q-toolbar-title>Gestión Telefónica</q-toolbar-title>
     </q-toolbar>
 
-    <q-tabs align="left">
-      <q-route-tab label="Label1" />
-      <q-route-tab label="Label2" />
-      <q-route-tab label="Label3" />
+    <q-tabs align="left" inline-label v-if="isAuth">
+      <q-route-tab icon="mdi-phone" :to="{ name: ROUTE_NAME.PHONE_HOME }" exact label="Teléfonos" />
+      <q-route-tab icon="mdi-store" exact label="Empresas" />
+      <q-route-tab icon="mdi-newspaper" exact label="Planes" />
     </q-tabs>
   </q-header>
 </template>
 
 <script lang='ts'>
-import { appModuleKey, injectStrict } from 'src/modules';
-import { defineComponent } from 'vue';
+import { appModuleKey, injectStrict, userModuleKey } from 'src/modules';
+import { ROUTE_NAME } from 'src/router';
+import { computed, defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 /**
  * AppHeader
  */
@@ -24,6 +27,10 @@ export default defineComponent({
   name: 'AppHeader',
   setup() {
     const $appModule = injectStrict(appModuleKey);
+    const $userModule = injectStrict(userModuleKey);
+    const $router = useRouter();
+
+    const isAuth = computed(() => $userModule.isAuth);
     /**
      * -----------------------------------------
      *	Methods
@@ -31,9 +38,10 @@ export default defineComponent({
      */
 
     function toggleLeftDrawer() { $appModule.toggleSidebar() }
+    function goHome() { void $router.push({ name: ROUTE_NAME.MAIN }) }
 
     return {
-      toggleLeftDrawer
+      toggleLeftDrawer, ROUTE_NAME, isAuth, goHome
     }
   }
 });

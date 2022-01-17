@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh LpR ffr">
     <app-header />
-    <q-page-container>
+    <q-page-container class="text-grey-9">
       <router-view />
     </q-page-container>
 
@@ -16,10 +16,12 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 import AppHeader from './Header.vue';
 import AppFooter from './Footer.vue';
 import LeftDrawer from './LeftDrawer.vue';
+import { injectStrict } from 'src/modules';
+import { entidadModuleKey } from 'src/modules/entidad';
 /**
  * MainLayout Component
  */
@@ -30,5 +32,13 @@ export default defineComponent({
     AppFooter,
     LeftDrawer,
   },
+  setup() {
+    const $entModule = injectStrict(entidadModuleKey);
+
+    onBeforeMount(() => {
+      void $entModule.loadEntidades(true);
+      void $entModule.loadLugares();
+    })
+  }
 });
 </script>

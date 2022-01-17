@@ -1,8 +1,12 @@
 <template>
   <q-footer elevated class="bg-primary text-white">
     <q-toolbar>
-      <q-toolbar-title>
-        <div>Title</div>
+      <q-toolbar-title class="text-center text-body1">
+        <div>
+          Copyright
+          <q-icon name="mdi-copyright" />
+          OICC {{ new Date().getFullYear() }} MININT-CIENFUEGOS
+        </div>
       </q-toolbar-title>
     </q-toolbar>
   </q-footer>
