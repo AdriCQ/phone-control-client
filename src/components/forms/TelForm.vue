@@ -52,7 +52,7 @@
         <q-input v-model="form.comentario" type="textarea" label="Comentario" />
       </q-card-section>
       <q-card-actions>
-        <q-btn color="primary" icon="mdi-check" :loading="loading" label="Guardar" type="submit" />
+        <q-btn color="primary" icon="mdi-check" label="Guardar" type="submit" />
       </q-card-actions>
     </q-form>
   </q-card>
@@ -118,14 +118,12 @@ export default defineComponent({
     const lugares = computed(() => $entidadModule.lugares);
     const lugarId = ref<null | number>(null);
 
-    const loading = ref(false);
     /**
      * -----------------------------------------
      *	Methods
      * -----------------------------------------
      */
     async function onSubmit() {
-      loading.value = true;
       try {
         if (form.value.id > 0) {
           await $telModule.update(form.value.id, form.value)
@@ -137,11 +135,10 @@ export default defineComponent({
       } catch (error) {
         responseHandler.axiosError(error as AxiosError);
       }
-      loading.value = false;
     }
 
     return {
-      ..._props, cargos, entidadId, entidades, departamentos, depId, form, loading, lugares, lugarId, onSubmit
+      ..._props, cargos, entidadId, entidades, departamentos, depId, form, lugares, lugarId, onSubmit
     }
   }
 });

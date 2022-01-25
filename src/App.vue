@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, provide } from 'vue';
-import { appModule, appModuleKey, telModule, telModuleKey, userModule, userModuleKey, entidadModule, entidadModuleKey } from 'src/modules';
+import { appModule, appModuleKey, telModule, telModuleKey, userModule, userModuleKey, entidadModule, entidadModuleKey, facturaModuleKey, facturaModule } from 'src/modules';
 /**
  * App
  */
@@ -14,6 +14,7 @@ export default defineComponent({
     provide(telModuleKey, telModule);
     provide(userModuleKey, userModule);
     provide(entidadModuleKey, entidadModule);
+    provide(facturaModuleKey, facturaModule);
 
   }
 })

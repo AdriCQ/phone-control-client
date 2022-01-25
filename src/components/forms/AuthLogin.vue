@@ -14,14 +14,7 @@
         />
       </q-card-section>
       <q-card-actions>
-        <q-btn
-          color="primary"
-          icon="mdi-check"
-          :loading="loading"
-          label="Iniciar"
-          type="submit"
-          class="full-width"
-        />
+        <q-btn color="primary" icon="mdi-check" label="Iniciar" type="submit" class="full-width" />
       </q-card-actions>
     </q-form>
   </q-card>
@@ -53,7 +46,6 @@ export default defineComponent({
       service_name: 'gestel'
     });
 
-    const loading = ref(false);
 
     /**
      * -----------------------------------------
@@ -61,7 +53,7 @@ export default defineComponent({
      * -----------------------------------------
      */
     async function onSubmit() {
-      loading.value = true;
+      responseHandler.loading();
       try {
         const resp = await $userModule.authLogin({
           password: LocalCrypt(loginForm.value.password),
@@ -73,11 +65,11 @@ export default defineComponent({
       } catch (error) {
         responseHandler.axiosError(error as AxiosError);
       }
-      loading.value = false;
+      responseHandler.loading(false, 'Verificando Credenciales');
     }
 
     return {
-      loginForm, loading,
+      loginForm,
       // Methods
       onSubmit
     }

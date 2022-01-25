@@ -9,8 +9,14 @@
 
     <q-tabs align="left" inline-label v-if="isAuth">
       <q-route-tab icon="mdi-phone" :to="{ name: ROUTE_NAME.PHONE_HOME }" exact label="Teléfonos" />
-      <q-route-tab icon="mdi-store" exact label="Empresas" />
+      <q-route-tab icon="mdi-store" :to="{ name: ROUTE_NAME.ENTITY_HOME }" exact label="Entidades" />
       <q-route-tab icon="mdi-newspaper" exact label="Planes" />
+      <q-route-tab
+        icon="mdi-newspaper"
+        :to="{ name: ROUTE_NAME.FACTURA_HOME }"
+        exact
+        label="Facturas"
+      />
     </q-tabs>
   </q-header>
 </template>

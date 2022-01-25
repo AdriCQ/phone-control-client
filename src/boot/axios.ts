@@ -14,6 +14,7 @@ const $api = axios.create({
   baseURL: `${baseURL}`,
   timeout: 30000,
   timeoutErrorMessage: 'Error en la red',
+  withCredentials: true
 });
 
 export default boot(({ app }) => {
@@ -40,7 +41,6 @@ export default boot(({ app }) => {
     }
     return _request;
   });
-  axios.defaults.withCredentials = true;
 
   app.config.globalProperties.$axios = axios;
 

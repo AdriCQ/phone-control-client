@@ -1,5 +1,5 @@
 import { QTableProps } from 'quasar';
-import { ITel, IEntidadType } from 'src/modules';
+import { ITel, IEntidadType, IEntidad } from 'src/modules';
 /**
  * TelGuideColumnFormatter
  * @param _tipoEntidad IEntidadType
@@ -62,5 +62,28 @@ export function TelGuideColumnFormatter(_tipoEntidad: IEntidadType): QTableProps
       field: tel => (tel as ITel).comentario,
       sortable: true
     }
+  ];
+}
+/**
+ * EntityGuideColumnFormatter
+ * @returns 
+ */
+export function EntityGuideColumnFormatter(): QTableProps['columns'] {
+  return [
+    {
+      name: 'nombre',
+      required: true,
+      label: 'Nombre',
+      align: 'left',
+      field: ent => (ent as IEntidad).nombre,
+      sortable: true
+    }, {
+      name: 'tipo',
+      required: true,
+      label: 'Topo',
+      align: 'left',
+      field: ent => (ent as IEntidad).tipo,
+      sortable: true
+    },
   ];
 }

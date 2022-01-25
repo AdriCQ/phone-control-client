@@ -1,8 +1,11 @@
 import { AxiosError } from 'axios';
 import { Notify } from 'quasar';
+import { userModule } from 'src/modules';
 import { IApiResp } from 'src/types';
 
 class ErrorHandler {
+
+  private _loading: CallableFunction | undefined;
   /**
    * success
    * @param _p 
@@ -33,9 +36,34 @@ class ErrorHandler {
    * axiosError
    * @param _error 
    */
-  axiosError<T = unknown>(_error: AxiosError<IApiResp<T>>) {
-    if (_error.response && _error.response.data && _error.response.data.message) {
-      this.error(_error.response.data.message);
+  axiosError<T = unknown>(_error: unknown) {
+    console.log({ AxiosError: _error });
+    const error = _error as AxiosError<IApiResp<T>>;
+    if (error.response) {
+      if (error.response.status === 401) {
+        userModule.logout();
+        return;
+      }
+      if (error.response.data && error.response.data.message) {
+        this.error(error.response.data.message);
+      }
+    }
+  }
+  /**
+   * loading
+   * @param _load 
+   * @param message 
+   */
+  loading(_load = true, message = 'Cargando...') {
+    if (_load) {
+      this._loading = Notify.create({
+        spinner: true,
+        position: 'center',
+        message,
+      });
+    }
+    else {
+      if (this._loading) this._loading();
     }
   }
 }

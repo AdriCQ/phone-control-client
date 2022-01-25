@@ -9,11 +9,11 @@
           <q-btn color="primary" icon="mdi-magnify" type="subumit" />
         </div>
         <div class="col-12">
-          <div class="q-gutter-sm" v-if="form.type !== 'tel'">
+          <div class="q-gutter-sm">
             <!-- <q-radio v-model="form.type" val="global" label="Todo" /> -->
+            <q-radio v-model="form.type" val="departamento" label="Unidad" />
             <q-radio v-model="form.type" val="tel" label="Teléfono" />
             <q-radio v-model="form.type" val="cargo" label="Cargo" />
-            <q-radio v-model="form.type" val="departamento" label="Unidad" />
             <q-radio v-model="form.type" val="entidad" label="Organo" />
             <q-radio v-model="form.type" val="lugar" label="Lugar" />
           </div>
@@ -28,8 +28,10 @@
 </template>
 
 <script lang='ts'>
+import { AxiosError } from 'axios';
+import { responseHandler } from 'src/helpers';
 import { injectStrict, ITel, ITelSearch, telModuleKey } from 'src/modules';
-import { defineAsyncComponent, defineComponent, ref, watch } from 'vue';
+import { defineAsyncComponent, defineComponent, ref } from 'vue';
 
 /**
  * TelSearchForm
@@ -49,29 +51,23 @@ export default defineComponent({
     const loading = ref(false);
     const form = ref<ITelSearch>({
       search: '',
-      type: 'tel'
+      type: 'departamento'
     });
     const searchKey = ref(0);
     const tels = ref<ITel[]>([]);
-
-    watch(() => form.value.search, _val => {
-      if (form.value.type === 'tel' && isNaN(Number(_val))) {
-        form.value.type = 'cargo';
-      }
-    });
     /**
      * onSubmit
      */
     async function onSubmit() {
-      loading.value = true;
+      responseHandler.loading();
       tels.value = [];
       searchKey.value++;
       try {
         tels.value = await $telModule.searchTels(form.value);
       } catch (error) {
-        console.log(error)
+        responseHandler.axiosError(error as AxiosError);
       }
-      loading.value = false;
+      responseHandler.loading(false);
     }
 
     return {

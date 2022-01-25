@@ -3,6 +3,10 @@
  */
 export enum ROUTE_NAME {
   MAIN = 'MAIN',
+  // Facturas
+  FACTURA_HOME = 'FACTURA.HOME',
+  // Entities
+  ENTITY_HOME = 'ENTITY.HOME',
   // Phones
   PHONE_HOME = 'PHONE.HOME',
   PHONE_FORM = 'PHONE.INSERT',
