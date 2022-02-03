@@ -1,12 +1,67 @@
 import { QTableProps } from 'quasar';
-import { ITel, IEntidadType, IEntidad } from 'src/modules';
+import { ITel, IEntidadType, IEntidad, IFactura } from 'src/modules';
+/**
+ * EntityGuideColumnFormatter
+ * @returns QTableProps['columns']
+ */
+export function EntityGuideColumnFormatter(): QTableProps['columns'] {
+  return [
+    {
+      name: 'nombre',
+      required: true,
+      label: 'Nombre',
+      align: 'left',
+      field: ent => (ent as IEntidad).nombre,
+      sortable: true
+    }, {
+      name: 'tipo',
+      required: true,
+      label: 'Topo',
+      align: 'left',
+      field: ent => (ent as IEntidad).tipo,
+      sortable: true
+    },
+  ];
+}
+/**
+ * FacturaColumnFormatter
+ * @returns QTableProps['columns']
+ */
+export const FacturaColumnFormatter: QTableProps['columns'] = [
+  {
+    name: 'fecha',
+    required: true,
+    label: 'Fecha',
+    align: 'left',
+    field: ent => (ent as IFactura).fecha,
+    sortable: true
+  }, {
+    name: 'resumen',
+    required: true,
+    label: 'Resumen',
+    align: 'left',
+    field: ent => (ent as IFactura).resumen,
+    sortable: true
+  },
+];
+
+
 /**
  * TelGuideColumnFormatter
  * @param _tipoEntidad IEntidadType
  * @returns  QTableProps['columns']
  */
-export function TelGuideColumnFormatter(_tipoEntidad: IEntidadType): QTableProps['columns'] {
-  const colLabel = {
+export function TelGuideColumnFormatter(_tipoEntidad: IEntidadType, isAuth = false): QTableProps['columns'] {
+  const colLabel = isAuth ? {
+    tel: 'Teléfono',
+    lugar: 'Lugar',
+    cargo: 'Cargo',
+    departamento: 'Unidad',
+    entidad: 'Órgano',
+    comentario: 'Comentario',
+    comprado: 'Comprado',
+    entregado: 'Entregado'
+  } : {
     tel: 'Teléfono',
     lugar: 'Lugar',
     cargo: 'Cargo',
@@ -18,7 +73,7 @@ export function TelGuideColumnFormatter(_tipoEntidad: IEntidadType): QTableProps
     colLabel.departamento = 'Departamento';
     colLabel.entidad = 'Empresa';
   }
-  return [
+  const rows: QTableProps['columns'] = [
     {
       name: 'tel',
       required: true,
@@ -63,27 +118,22 @@ export function TelGuideColumnFormatter(_tipoEntidad: IEntidadType): QTableProps
       sortable: true
     }
   ];
-}
-/**
- * EntityGuideColumnFormatter
- * @returns 
- */
-export function EntityGuideColumnFormatter(): QTableProps['columns'] {
-  return [
-    {
-      name: 'nombre',
-      required: true,
-      label: 'Nombre',
+  if (isAuth) {
+    rows.push({
+      name: 'entregado',
+      required: false,
+      label: colLabel.entregado as string,
       align: 'left',
-      field: ent => (ent as IEntidad).nombre,
+      field: tel => (tel as ITel).config.entregado ? 'SI' : 'NO',
       sortable: true
     }, {
-      name: 'tipo',
-      required: true,
-      label: 'Topo',
+      name: 'comprado',
+      required: false,
+      label: colLabel.comprado as string,
       align: 'left',
-      field: ent => (ent as IEntidad).tipo,
+      field: tel => (tel as ITel).config.comprado ? 'SI' : 'NO',
       sortable: true
-    },
-  ];
+    })
+  }
+  return rows;
 }

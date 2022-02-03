@@ -10,6 +10,7 @@ export const facturasRoutes: RouteRecordRaw = {
   path: '/factura',
   beforeEnter: roleGuard,
   children: [
-    { path: '', name: ROUTE_NAME.FACTURA_HOME, component: () => import('src/pages/facturas/Index.vue') }
+    { path: '', name: ROUTE_NAME.FACTURA_HOME, component: () => import('src/pages/facturas/Index.vue') },
+    { path: 'details', name: ROUTE_NAME.FACTURA_DETAILS, component: () => import('src/pages/facturas/Details.vue') }
   ]
 }

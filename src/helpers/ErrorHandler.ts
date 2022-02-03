@@ -1,7 +1,9 @@
 import { AxiosError } from 'axios';
+import { $router } from 'src/boot/router';
 import { Notify } from 'quasar';
 import { userModule } from 'src/modules';
 import { IApiResp } from 'src/types';
+import { ROUTE_NAME } from 'src/router';
 
 class ErrorHandler {
 
@@ -42,6 +44,7 @@ class ErrorHandler {
     if (error.response) {
       if (error.response.status === 401) {
         userModule.logout();
+        void $router.push({ name: ROUTE_NAME.MAIN })
         return;
       }
       if (error.response.data && error.response.data.message) {

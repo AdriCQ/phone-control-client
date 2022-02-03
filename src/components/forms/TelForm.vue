@@ -13,6 +13,11 @@
         />
         <q-select v-model="form.servicio" :options="['AUTOMATICO', 'EXTENSION']" label="Servicio" />
         <q-select v-model="form.tipo" :options="['PUBLICO', 'PRIVADO']" label="Tipo" />
+
+        <!-- CONFIG -->
+        <q-checkbox v-model="form.config.comprado" label="Comprado" />
+        <q-checkbox v-model="form.config.entregado" label="Entregado" />
+        <!-- /CONFIG -->
         <q-select
           v-model="entidadId"
           :options="entidades"
@@ -112,7 +117,12 @@ export default defineComponent({
       servicio: 'AUTOMATICO',
       tel: '',
       tipo: 'PRIVADO',
-      cargo: undefined
+      cargo: undefined,
+      config: {
+        comprado: false,
+        entregado: false
+      },
+      comentario: ''
     });
 
     const lugares = computed(() => $entidadModule.lugares);

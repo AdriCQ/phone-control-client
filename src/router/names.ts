@@ -5,6 +5,7 @@ export enum ROUTE_NAME {
   MAIN = 'MAIN',
   // Facturas
   FACTURA_HOME = 'FACTURA.HOME',
+  FACTURA_DETAILS = 'FACTURA.DETAILS',
   // Entities
   ENTITY_HOME = 'ENTITY.HOME',
   // Phones

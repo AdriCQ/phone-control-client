@@ -19,6 +19,10 @@ export interface ITel extends IDatabaseModel {
   tipo: ITelTipo;
   cargo_id: number;
   cargo?: ICargo;
+  config: {
+    comprado: boolean;
+    entregado: boolean;
+  };
   comentario?: string;
 }
 

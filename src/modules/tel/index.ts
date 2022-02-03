@@ -24,6 +24,7 @@ export class TelModule {
     servicio: 'AUTOMATICO',
     tel: '',
     tipo: 'PRIVADO',
+    config: { comprado: false, entregado: false }
   });
   private _tels = ref<ITel[]>([]);
   /**

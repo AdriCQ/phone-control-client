@@ -3,7 +3,7 @@
     title="Teléfonos"
     virtual-scroll
     :rows="data"
-    :columns="TelGuideColumnFormatter(tipo)"
+    :columns="TelGuideColumnFormatter(tipo, isAuth)"
     :loading="loading"
     row-key="id"
     @row-dblclick="onRowDbClick"
@@ -15,8 +15,8 @@
 
 <script lang='ts'>
 import { LooseDictionary } from 'quasar';
-import { IEntidadType, ITel } from 'src/modules';
-import { defineAsyncComponent, defineComponent, PropType, ref } from 'vue';
+import { IEntidadType, injectStrict, ITel, userModuleKey } from 'src/modules';
+import { computed, defineAsyncComponent, defineComponent, PropType, ref } from 'vue';
 import { TelGuideColumnFormatter } from './columnFormatter';
 
 /**
@@ -41,11 +41,13 @@ export default defineComponent({
     }
   },
   setup(_props) {
+    const $userModule = injectStrict(userModuleKey);
     /**
      * -----------------------------------------
      *	DATA
      * -----------------------------------------
      */
+    const isAuth = computed(() => Boolean($userModule.isAuth));
     const dialogDetails = ref(false);
     const filter = ref('');
     const telDetails = ref<ITel | null>(null);
@@ -61,7 +63,7 @@ export default defineComponent({
     }
 
     return {
-      ..._props, TelGuideColumnFormatter, dialogDetails, filter, telDetails,
+      ..._props, isAuth, TelGuideColumnFormatter, dialogDetails, filter, telDetails,
       // Methods
       onRowDbClick
     }

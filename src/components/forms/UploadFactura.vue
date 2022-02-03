@@ -2,6 +2,7 @@
   <q-card class="no-box-shadow">
     <q-form @submit.prevent="onSubmit" class="q-gutter-md">
       <q-card-section class="q-gutter-y-sm">
+        <q-input v-model="year" type="number" min="2000" max="3000" label="Año" />
         <q-select v-model="mes" :options="meses" label="Mes" />
         <q-file v-model="factura" accept=".zip" label="Facturas .ZIP">
           <template v-slot:prepend>
@@ -10,7 +11,7 @@
         </q-file>
       </q-card-section>
       <q-card-actions>
-        <q-btn color="primary" icon="mdi-check" label="OK" type="submit" />
+        <q-btn color="primary" class="full-width" icon="mdi-check" label="OK" type="submit" />
       </q-card-actions>
     </q-form>
   </q-card>
@@ -26,11 +27,13 @@ import { defineComponent, ref, onBeforeMount } from 'vue'
  */
 export default defineComponent({
   name: 'UploadFacturaForm',
-  setup() {
+  emits: ['uploaded'],
+  setup(_props, $ctx) {
     const $facturaModule = injectStrict(facturaModuleKey);
 
     onBeforeMount(() => {
       mes.value = DateHelper().monthName();
+      year.value = new Date().getFullYear();
     });
     /**
      * -----------------------------------------
@@ -40,23 +43,29 @@ export default defineComponent({
     const mes = ref<IMes>('ENERO');
     const meses = DateHelper().months;
     const factura = ref();
+    const year = ref(new Date().getFullYear());
     /**
      * onSubmit
      */
     async function onSubmit() {
       const formData = new FormData();
-      formData.append('fecha', `${new Date().getFullYear()}-${mes.value}`);
+      formData.append('mes', `${meses.findIndex(_m => _m === mes.value)}`);
+      formData.append('year', `${year.value}`);
       formData.append('factura', factura.value);
+      responseHandler.loading();
       try {
-        const resp = await $facturaModule.uploadZip(formData);
+        const resp = await $facturaModule.uploadEtecsa(formData);
         console.log(resp);
+        $ctx.emit('uploaded', resp);
       } catch (error) {
         responseHandler.axiosError(error);
       }
+      responseHandler.loading(false);
+
     }
 
     return {
-      factura, mes, meses,
+      factura, mes, meses, year,
       onSubmit
     }
   }
