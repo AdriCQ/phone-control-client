@@ -5,8 +5,9 @@ export type IMes = 'ENERO' | 'FEBRERO' | 'MARZO' | 'ABRIL' | 'MAYO' | 'JUNIO' | 
  * IFactura
  */
 export interface IFactura extends IDatabaseModel {
-  fecha: string;
-  resumen?: unknown;
+  year: number;
+  mes: number;
+  total_importe: number;
 }
 /**
  * IFacturaGetCsv

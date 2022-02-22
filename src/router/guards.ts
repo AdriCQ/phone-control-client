@@ -24,9 +24,11 @@ export const roleGuard: NavigationGuard = (_to, _from, _next) => {
   if (_to.name === ROUTE_NAME.MAIN) {
     _next();
   }
-  else if (userModule.roles.find(_role => _role.name === 'DEVELOPER' || _role.name === 'ADMIN'))
+  else if (userModule.roles && userModule.roles.length && userModule.roles.find(_role => _role.name === 'DEVELOPER' || _role.name === 'ADMIN')) {
     _next();
+  }
   else {
+    userModule.logout();
     _next({ name: ROUTE_NAME.MAIN })
   }
 }

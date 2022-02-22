@@ -2,6 +2,10 @@ import { IMes } from 'src/modules';
 
 export function DateHelper() {
   const months: IMes[] = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
+
+  function monthIndex(_month: IMes): number {
+    return months.indexOf(_month) + 1;
+  }
   /**
    * monthName
    * @returns 
@@ -11,6 +15,6 @@ export function DateHelper() {
   }
 
   return {
-    months, monthName
+    months, monthIndex, monthName
   }
 }

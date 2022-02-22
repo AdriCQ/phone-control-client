@@ -19,7 +19,7 @@
 
 <script lang='ts'>
 import { DateHelper, responseHandler } from 'src/helpers';
-import { facturaModuleKey, IMes, injectStrict } from 'src/modules';
+import { appModuleKey, facturaModuleKey, IMes, injectStrict } from 'src/modules';
 import { defineComponent, ref, onBeforeMount } from 'vue'
 
 /**
@@ -30,6 +30,7 @@ export default defineComponent({
   emits: ['uploaded'],
   setup(_props, $ctx) {
     const $facturaModule = injectStrict(facturaModuleKey);
+    const $appModule = injectStrict(appModuleKey);
 
     onBeforeMount(() => {
       mes.value = DateHelper().monthName();
@@ -55,7 +56,7 @@ export default defineComponent({
       responseHandler.loading();
       try {
         const resp = await $facturaModule.uploadEtecsa(formData);
-        console.log(resp);
+        $appModule.setCounter(5 * 60);
         $ctx.emit('uploaded', resp);
       } catch (error) {
         responseHandler.axiosError(error);

@@ -4,6 +4,7 @@ import { facturasRoutes } from './facturas';
 import { ROUTE_NAME } from './names';
 import { phoneRoutes } from './phones';
 import { profileRoutes } from './profile';
+import { statsRoutes } from './stats';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -15,7 +16,7 @@ const routes: RouteRecordRaw[] = [
   facturasRoutes,
   phoneRoutes,
   profileRoutes,
-
+  statsRoutes,
   // Always leave this as last one,
   // but you can also remove it
   {

@@ -12,7 +12,7 @@ export type ITelTipo = 'PUBLICO' | 'PRIVADO';
  * ITel
  */
 export interface ITel extends IDatabaseModel {
-  tel: string;
+  telf: string;
   servicio: ITelServicio;
   fecha_alta: Date;
   presupuesto: number;

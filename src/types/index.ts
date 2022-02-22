@@ -12,3 +12,5 @@ export interface IApiResp<DataType = unknown> {
   message: string[];
   data: DataType;
 }
+
+export * from './quasar';

@@ -16,7 +16,7 @@
     <q-dialog v-model="newFactDialog">
       <upload-factura-form
         v-if="newFactDialog"
-        style="min-width: 10;"
+        style="min-width: 20rem;"
         @uploaded="onFacturaUploaded"
       />
     </q-dialog>
@@ -42,7 +42,9 @@
 <script lang='ts'>
 import { responseHandler } from 'src/helpers';
 import { facturaModuleKey, IFactura, injectStrict } from 'src/modules';
-import { defineAsyncComponent, defineComponent, onBeforeMount, ref } from 'vue'
+import { ROUTE_NAME } from 'src/router';
+import { defineAsyncComponent, defineComponent, onBeforeMount, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 /**
  * facturaIndexPage
@@ -55,7 +57,7 @@ export default defineComponent({
   },
   setup() {
     const $facturaModule = injectStrict(facturaModuleKey);
-
+    const $router = useRouter();
     onBeforeMount(() => {
       $facturaModule.list().then(_f => { facturas.value = _f }).catch(_e => { console.log(_e) });
     })
@@ -91,6 +93,7 @@ export default defineComponent({
     function onFacturaUploaded() {
       $facturaModule.list().then(_f => { facturas.value = _f }).catch(_e => { console.log(_e) });
       newFactDialog.value = false;
+      void $router.push({ name: ROUTE_NAME.MAIN })
     }
 
     return {

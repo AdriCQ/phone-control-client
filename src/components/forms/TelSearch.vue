@@ -64,6 +64,7 @@ export default defineComponent({
       searchKey.value++;
       try {
         tels.value = await $telModule.searchTels(form.value);
+        console.log('Search', tels.value)
       } catch (error) {
         responseHandler.axiosError(error as AxiosError);
       }

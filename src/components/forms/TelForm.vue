@@ -2,7 +2,7 @@
   <q-card class="no-box-shadow">
     <q-form @submit.prevent="onSubmit">
       <q-card-section class="q-gutter-y-sm">
-        <q-input v-model="form.tel" type="tel" label="Teléfono" />
+        <q-input v-model="form.telf" type="tel" label="Teléfono" />
         <q-input
           v-model="form.presupuesto"
           type="number"
@@ -115,7 +115,7 @@ export default defineComponent({
       id: 0,
       presupuesto: 0,
       servicio: 'AUTOMATICO',
-      tel: '',
+      telf: '',
       tipo: 'PRIVADO',
       cargo: undefined,
       config: {

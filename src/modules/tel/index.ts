@@ -22,7 +22,7 @@ export class TelModule {
     id: 0,
     presupuesto: 0,
     servicio: 'AUTOMATICO',
-    tel: '',
+    telf: '',
     tipo: 'PRIVADO',
     config: { comprado: false, entregado: false }
   });

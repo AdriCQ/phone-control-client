@@ -1,4 +1,5 @@
 import { QTableProps } from 'quasar';
+import { DateHelper } from 'src/helpers';
 import { ITel, IEntidadType, IEntidad, IFactura } from 'src/modules';
 /**
  * EntityGuideColumnFormatter
@@ -29,18 +30,27 @@ export function EntityGuideColumnFormatter(): QTableProps['columns'] {
  */
 export const FacturaColumnFormatter: QTableProps['columns'] = [
   {
-    name: 'fecha',
+    name: 'year',
     required: true,
-    label: 'Fecha',
+    label: 'Año',
     align: 'left',
-    field: ent => (ent as IFactura).fecha,
+    field: ent => (ent as IFactura).year,
     sortable: true
   }, {
-    name: 'resumen',
+    name: 'mes',
     required: true,
-    label: 'Resumen',
+    label: 'Mes',
     align: 'left',
-    field: ent => (ent as IFactura).resumen,
+    field: ent => DateHelper().monthName((ent as IFactura).mes),
+    sortable: true
+  }, {
+    name: 'total_importe',
+    required: true,
+    label: 'Importe',
+    align: 'left',
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    field: (ent: IFactura) => `$${Number(ent.total_importe).toFixed(2)}`,
     sortable: true
   },
 ];
@@ -79,7 +89,7 @@ export function TelGuideColumnFormatter(_tipoEntidad: IEntidadType, isAuth = fal
       required: true,
       label: colLabel.tel,
       align: 'left',
-      field: tel => (tel as ITel).tel,
+      field: tel => (tel as ITel).telf,
       sortable: true
     }, {
       name: 'lugar',

@@ -12,10 +12,23 @@
       <q-route-tab icon="mdi-store" :to="{ name: ROUTE_NAME.ENTITY_HOME }" exact label="Entidades" />
       <q-route-tab icon="mdi-newspaper" exact label="Planes" />
       <q-route-tab
+        icon="mdi-clock"
+        v-if="counterInterval"
+        :label="`Procesando ${Number(counterInterval).toFixed(0)}%`"
+        :key="counterInterval"
+      />
+      <q-route-tab
+        v-else
         icon="mdi-newspaper"
         :to="{ name: ROUTE_NAME.FACTURA_HOME }"
         exact
-        label="Facturas"
+        label="Factura"
+      />
+      <q-route-tab
+        icon="mdi-chart-bar"
+        :to="{ name: ROUTE_NAME.STATS_HOME }"
+        exact
+        label="Análisis"
       />
     </q-tabs>
   </q-header>
@@ -35,7 +48,7 @@ export default defineComponent({
     const $appModule = injectStrict(appModuleKey);
     const $userModule = injectStrict(userModuleKey);
     const $router = useRouter();
-
+    const counterInterval = computed(() => $appModule.counter)
     const isAuth = computed(() => $userModule.isAuth);
     /**
      * -----------------------------------------
@@ -47,7 +60,7 @@ export default defineComponent({
     function goHome() { void $router.push({ name: ROUTE_NAME.MAIN }) }
 
     return {
-      toggleLeftDrawer, ROUTE_NAME, isAuth, goHome
+      toggleLeftDrawer, counterInterval, ROUTE_NAME, isAuth, goHome
     }
   }
 });

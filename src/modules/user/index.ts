@@ -41,7 +41,8 @@ export class UserModule {
    */
   async authLogin(_credentials: IUserCredentials): Promise<IAuthResponse> {
     try {
-      await $csrf();
+      const csrf = await $csrf();
+      console.log(csrf);
       const resp = await $api.post<IApiResp<IAuthResponse>>(`${MODULE_API}/login`, _credentials);
       this.apiToken = resp.data.data.api_token;
       this.profile = resp.data.data.profile;

@@ -4,7 +4,11 @@
       <div class="text-h6">Detalles</div>
     </q-card-section>
     <q-card-section class="q-gutter-y-xs">
-      <div class="text-body1">Número: {{ tel.tel }}</div>
+      <div class="text-body1">Número: {{ tel.telf }}</div>
+      <div
+        class="text-body1 text-negative"
+        v-if="sobregiro"
+      >Sobregiro: ${{ Number(sobregiro).toFixed(2) }}</div>
       <div class="text-body1">Cargo: {{ tel.cargo?.nombre }}</div>
       <div class="text-body1">
         {{ tel.cargo?.departamento?.entidad?.tipo === 'MININT' ? 'Unidad' : 'Departamento' }}:
@@ -15,7 +19,7 @@
         : {{ tel.cargo?.departamento?.entidad?.nombre }}
       </div>
     </q-card-section>
-    <q-card-actions v-if="isAuth">
+    <q-card-actions v-if="isAuth && editEnable">
       <q-btn class="full-width" color="primary" @click="edit" icon="mdi-pencil" label="Editar" />
     </q-card-actions>
   </q-card>
@@ -36,6 +40,14 @@ export default defineComponent({
     tel: {
       type: Object as PropType<ITel>,
       required: true
+    },
+    sobregiro: {
+      type: Number,
+      required: false
+    },
+    editEnable: {
+      type: Boolean,
+      default: true
     }
   }, setup(_props) {
     const $userModule = injectStrict(userModuleKey);

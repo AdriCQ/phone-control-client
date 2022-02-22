@@ -13,8 +13,11 @@ export function injectStrict<T>(key: InjectionKey<T>, fallback?: T) {
   return resolved;
 }
 
+export * from './types';
+
 export * from './app';
 export * from './entidad';
 export * from './factura';
 export * from './user';
+export * from './stats';
 export * from './tel';

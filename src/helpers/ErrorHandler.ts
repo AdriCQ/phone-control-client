@@ -1,10 +1,12 @@
 import { AxiosError } from 'axios';
 import { $router } from 'src/boot/router';
-import { Notify } from 'quasar';
+import { Notify, QSpinnerGears } from 'quasar';
 import { userModule } from 'src/modules';
-import { IApiResp } from 'src/types';
+import { IApiResp, INotifyPosition } from 'src/types';
 import { ROUTE_NAME } from 'src/router';
-
+/**
+ * ErrorHandler
+ */
 class ErrorHandler {
 
   private _loading: CallableFunction | undefined;
@@ -12,12 +14,16 @@ class ErrorHandler {
    * success
    * @param _p 
    */
-  success(_p: string[]) {
+  success(_p: string[], timeout = 7000, position: INotifyPosition = 'center') {
     _p.forEach(message => {
       Notify.create({
         type: 'positive',
         message,
-        position: 'center'
+        position,
+        timeout,
+        actions: [
+          { label: 'x', color: 'white', handler: () => { /* ... */ } }
+        ]
       })
     })
   }
@@ -25,12 +31,16 @@ class ErrorHandler {
     * success
     * @param _p 
     */
-  error(_p: string[]) {
+  error(_p: string[], timeout = 7000, position: INotifyPosition = 'center') {
     _p.forEach(message => {
       Notify.create({
         type: 'negative',
         message,
-        position: 'center'
+        position,
+        timeout,
+        actions: [
+          { label: 'x', color: 'white', handler: () => { /* ... */ } }
+        ]
       })
     })
   }
@@ -57,12 +67,13 @@ class ErrorHandler {
    * @param _load 
    * @param message 
    */
-  loading(_load = true, message = 'Cargando...') {
+  loading(_load = true, message = 'Cargando...', timeout = 0, position: INotifyPosition = 'center') {
     if (_load) {
       this._loading = Notify.create({
-        spinner: true,
-        position: 'center',
+        spinner: QSpinnerGears,
+        position,
         message,
+        timeout,
       });
     }
     else {
