@@ -6,7 +6,13 @@
         <q-select v-model="mes" :options="DateHelper().months" label="Mes" />
       </q-card-section>
       <q-card-actions>
-        <q-btn color="primary" icon="mdi-magnify" label="Buscar" type="submit" class="full-width" />
+        <q-btn
+          color="primary"
+          :icon="report ? 'mdi-cloud-download' : 'mdi-magnify'"
+          :label="report ? 'Descargar Reporte' : 'Buscar'"
+          type="submit"
+          class="full-width"
+        />
       </q-card-actions>
     </q-form>
   </q-card>
@@ -15,7 +21,7 @@
 <script lang='ts'>
 import { responseHandler, DateHelper } from 'src/helpers';
 import { IMes, injectStrict, statsModulenKey } from 'src/modules';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, toRefs } from 'vue';
 
 /**
  * TelPasadosForm
@@ -23,20 +29,37 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'TelPasadosForm',
   emits: ['ok'],
+  props: {
+    report: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup(_props, $ctx) {
     const $statsModule = injectStrict(statsModulenKey);
 
+    const { report } = toRefs(_props);
+
     const mes = ref<IMes>(DateHelper().monthName(new Date().getMonth()));
     const year = ref(new Date().getFullYear());
-
+    /**
+     * onSubmit
+     */
     async function onSubmit() {
       responseHandler.loading();
       try {
-        const resp = await $statsModule.telsPasados({
-          mes: DateHelper().monthIndex(mes.value),
-          year: year.value
-        });
-        $ctx.emit('ok', resp);
+        if (report.value) {
+          await $statsModule.telsPasados({
+            mes: DateHelper().monthIndex(mes.value),
+            year: year.value
+          }, true);
+        }
+        else {
+          $ctx.emit('ok', await $statsModule.telsPasados({
+            mes: DateHelper().monthIndex(mes.value),
+            year: year.value
+          }));
+        }
       } catch (error) {
         responseHandler.axiosError(error)
       }

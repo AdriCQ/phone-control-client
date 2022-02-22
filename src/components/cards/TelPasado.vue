@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card class="cursor-pointer">
     <q-card-section>
       <div class="text-subtitle2">
         <q-icon name="mdi-phone" />
